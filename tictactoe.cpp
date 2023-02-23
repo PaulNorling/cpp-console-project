@@ -12,6 +12,7 @@ bool gameOn = true;
 int row;
 int column;
 char turn = 'X';
+int playerTurns = 0;
 
 //display board
 void display_board() {
@@ -20,7 +21,7 @@ void display_board() {
     cout<<board[2][0]<<'|'<<board[2][1]<<'|'<<board[2][2]<<endl;
 }
 
-//take in choice
+//collect choice
 void selection() {
     cout<<"Player "<<turn<<" "<<"make a selction \n";
     cin>> choice;
@@ -40,38 +41,51 @@ void selection() {
    if(turn=='X' && board[row][column]!='X' && board[row][column]!='O') {
    board[row][column]='X';
    turn='O';
+   playerTurns++;
    }else if(turn=='O' && board[row][column]!='X' && board[row][column]!='O') {
    board[row][column]='O';
    turn='X';
+   playerTurns++;
    }else {
     cout<<"Choose another box \n";
    }
 }
 //check for win
 void gameWon() {
-    for(int i; i<3; i++){
+    for(int i=0; i<3; i++){
         //row win
         if(board[i][0]==board[i][1] && board[i][1]==board[i][2]){
-            cout<<"Win!!";
+            cout<<"Win!!\n";
             gameOn = false;
+            return;
         //column win
         }else if(board[0][i]==board[1][i] && board[1][i]==board[2][i]){
-            cout<<"Win!!";
+            cout<<"Win!!\n";
             gameOn = false;
+            return;
         //diagonal win
         }else if(board[0][0]==board[1][1] && board[1][1]==board[2][2] || board[0][2]==board[1][1] && board[1][1]==board[2][0]){
-            cout<<"Win!!";
+            cout<<"Win!!\n";
             gameOn = false;
+            return;
         }
     }    
 }
 //check for draw
-int main(){
-    cout<<"tictactoe \n";
+void gameDraw() {
+    if(playerTurns == 9){
+        cout<<"Draw \n";
+        gameOn = false;
+    }
+}
+//main method
+int main() {
+    cout<<"TicTacToe \n";
     while(gameOn) {
         display_board();
         selection();
         gameWon();
+        gameDraw();
     }
     return 0;
 }
