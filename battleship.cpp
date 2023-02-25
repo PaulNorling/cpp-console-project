@@ -36,6 +36,49 @@ char fleet[10][10]={{' ','S','S','S',' ',' ',' ',' ',' ',' '},
                     {' ',' ',' ',' ','S',' ',' ',' ',' ',' '},
                     {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},};
 
+//ships sunk
+void shipSunk() {
+    if (row == 0)
+    {
+         if (column > 0 && column < 4)
+         {
+            cout<<"Destroyer \n";
+             return;
+         }
+     }
+     else if (row == 2)
+    {
+        if (column > 0 && column < 6)
+        {
+            cout<<"Carrier \n";
+            return;
+        }
+    }
+    else if (column == 2)
+    {
+        if (row > 3 && row < 6)
+        {
+            cout<<"Parolboat \n";
+            return;
+        }
+    }
+    else if (column == 4)
+    {
+        if (row > 4 && row < 9)
+        {   cout<<"Battleship \n";
+            return;
+        }
+    }
+    else if (column == 8)
+    {
+        if (row > 2 && row < 6)
+        {
+            cout<<"Submarine \n";
+            return;
+        }
+    }
+}
+
 //display board
 void display_board() {
     cout<<"  "<<1<<'|'<<2<<'|'<<3<<'|'<<4<<'|'<<5<<'|'<<6<<'|'<<7<<'|'<<8<<'|'<<9<<'|'<<10<<endl;
@@ -77,6 +120,7 @@ void selection() {
         case ('j'): row=9; break;
         default:
         cout<<"invalid selection \n";
+        return;
     }
     cout<<"Select Column \n";
     cin>>columnInteger;
@@ -93,6 +137,7 @@ void selection() {
         case (10): column=9; break;
         default:
         cout<<"invalid selection \n";
+        return;
     }
     if(board[row][column] != 'X' && fleet[row][column] != 'S'){
         board[row][column] = '0';
@@ -103,22 +148,20 @@ void selection() {
         cout<<"HIT!\n";
         hits++;
         turns++;
-    }else if(board[row][column] == 'X'){
+    }else{
         cout<<"invalid selection \n";
+        return;
     } 
 }
 //Have all the ships been sunk
 void gameIsWon() {
     if(hits == 17){
         display_board();
-        cout<<"WIN!! in \n"<<turns<<" turns\n";
+        cout << "Congratulations, you have won the game!\n";
+        cout<<"It took you "<<turns<<"guesses to win.\n";
         gameOn = false;
     }
 }
-//ships sunk
-// void shipStruck(){
-
-// }
 
 int main() {
     cout<<"BattleShip \n";
@@ -126,6 +169,7 @@ int main() {
         display_board();
         cout<<turns<<"turns \n";
         selection();
+        shipSunk();
         gameIsWon();
       }
     return 0;
