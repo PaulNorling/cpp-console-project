@@ -6,8 +6,12 @@ using namespace std;
 //variables
 bool gameOn = true;
 char choice;
+char rowCharacter;
+int columnInteger;
 int row;
 int column;
+int turns = 0;
+int hits = 0;
 //Array of the board
 char board[10][10]={{' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
                     {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
@@ -49,26 +53,80 @@ void display_board() {
 //collect player selection 
 void selection() {
     cout<<"Select Row \n";
-    cin>>row;
+    cin>>rowCharacter;
+    switch(rowCharacter){
+        case ('A'): row=0; break;
+        case ('B'): row=1; break;
+        case ('C'): row=2; break;
+        case ('D'): row=3; break;
+        case ('E'): row=4; break;
+        case ('F'): row=5; break;
+        case ('G'): row=6; break;
+        case ('H'): row=7; break;
+        case ('I'): row=8; break;
+        case ('J'): row=9; break;
+        case ('a'): row=0; break;
+        case ('b'): row=1; break;
+        case ('c'): row=2; break;
+        case ('d'): row=3; break;
+        case ('e'): row=4; break;
+        case ('f'): row=5; break;
+        case ('g'): row=6; break;
+        case ('h'): row=7; break;
+        case ('i'): row=8; break;
+        case ('j'): row=9; break;
+        default:
+        cout<<"invalid selection \n";
+    }
     cout<<"Select Column \n";
-    cin>>column;
+    cin>>columnInteger;
+    switch(columnInteger){
+        case (1): column=0; break;
+        case (2): column=1; break;
+        case (3): column=2; break;
+        case (4): column=3; break;
+        case (5): column=4; break;
+        case (6): column=5; break;
+        case (7): column=6; break;
+        case (8): column=7; break;
+        case (9): column=8; break;
+        case (10): column=9; break;
+        default:
+        cout<<"invalid selection \n";
+    }
     if(board[row][column] != 'X' && fleet[row][column] != 'S'){
         board[row][column] = '0';
         cout<<"MISS!\n";
+        turns++;
     }else if(board[row][column] != 'X' && fleet[row][column] == 'S'){
         board[row][column] = 'X';
         cout<<"HIT!\n";
+        hits++;
+        turns++;
     }else if(board[row][column] == 'X'){
-        cout<<"Make another selection \n";
-    }
-    
+        cout<<"invalid selection \n";
+    } 
 }
+//Have all the ships been sunk
+void gameIsWon() {
+    if(hits == 17){
+        display_board();
+        cout<<"WIN!! in \n"<<turns<<" turns\n";
+        gameOn = false;
+    }
+}
+//ships sunk
+// void shipStruck(){
+
+// }
 
 int main() {
-    cout<<"TicTacToe \n";
+    cout<<"BattleShip \n";
       while(gameOn){
         display_board();
+        cout<<turns<<"turns \n";
         selection();
+        gameIsWon();
       }
     return 0;
 }
