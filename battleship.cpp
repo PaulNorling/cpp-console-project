@@ -10,8 +10,17 @@ char rowCharacter;
 int columnInteger;
 int row;
 int column;
-int turns = 0;
-int hits = 0;
+int turns;
+int hits;
+
+int destroyerHits;
+int carrierHits;
+int patrolboatHits;
+int battleshipHits;
+int submarineHits;
+
+
+
 //Array of the board
 char board[10][10]={{' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
                     {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
@@ -36,14 +45,16 @@ char fleet[10][10]={{' ','S','S','S',' ',' ',' ',' ',' ',' '},
                     {' ',' ',' ',' ','S',' ',' ',' ',' ',' '},
                     {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},};
 
-//ships sunk
-void shipSunk() {
+//what ship is hit
+void shipHit() {
+  
     if (row == 0)
     {
          if (column > 0 && column < 4)
          {
             cout<<"Destroyer \n";
-             return;
+            destroyerHits++;
+            return;
          }
      }
      else if (row == 2)
@@ -51,6 +62,7 @@ void shipSunk() {
         if (column > 0 && column < 6)
         {
             cout<<"Carrier \n";
+            carrierHits++;
             return;
         }
     }
@@ -58,7 +70,8 @@ void shipSunk() {
     {
         if (row > 3 && row < 6)
         {
-            cout<<"Parolboat \n";
+            cout<<"Patrolboat \n";
+            patrolboatHits++;
             return;
         }
     }
@@ -66,6 +79,7 @@ void shipSunk() {
     {
         if (row > 4 && row < 9)
         {   cout<<"Battleship \n";
+            battleshipHits++;
             return;
         }
     }
@@ -74,9 +88,28 @@ void shipSunk() {
         if (row > 2 && row < 6)
         {
             cout<<"Submarine \n";
+            submarineHits++;
             return;
         }
     }
+  
+}
+
+void shipSunkCount() {
+   int shipSunk=0;
+    if(destroyerHits == 3){
+        shipSunk++;
+    }if(carrierHits == 5){
+        shipSunk++;
+    }if(patrolboatHits == 2){
+        shipSunk++;
+    }if(battleshipHits == 4){
+        shipSunk++;
+    }if(submarineHits == 3){
+        shipSunk++;
+    }
+  cout<<shipSunk<<" ships sunk \n";
+  shipSunk = 0;
 }
 
 //display board
@@ -139,26 +172,31 @@ void selection() {
         cout<<"invalid selection \n";
         return;
     }
-    if(board[row][column] != 'X' && fleet[row][column] != 'S'){
+    if(board[row][column] != 'X' && fleet[row][column] != 'S' && board[row][column] ){
         board[row][column] = '0';
         cout<<"MISS!\n";
         turns++;
+        
+        
     }else if(board[row][column] != 'X' && fleet[row][column] == 'S'){
         board[row][column] = 'X';
-        cout<<"HIT!\n";
+        cout<<"HIT! ";
         hits++;
         turns++;
     }else{
         cout<<"invalid selection \n";
+        row=0;
+        column=0;
         return;
     } 
 }
 //Have all the ships been sunk
 void gameIsWon() {
     if(hits == 17){
+        shipSunkCount();
         display_board();
         cout << "Congratulations, you have won the game!\n";
-        cout<<"It took you "<<turns<<"guesses to win.\n";
+        cout<<"It took you "<<turns<<" guesses to win.\n";
         gameOn = false;
     }
 }
@@ -166,10 +204,11 @@ void gameIsWon() {
 int main() {
     cout<<"BattleShip \n";
       while(gameOn){
+        shipSunkCount();
         display_board();
-        cout<<turns<<"turns \n";
+        cout<<turns<<" guesses \n";
         selection();
-        shipSunk();
+        shipHit();
         gameIsWon();
       }
     return 0;
