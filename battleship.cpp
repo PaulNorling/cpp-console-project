@@ -5,7 +5,6 @@ using namespace std;
 
 //variables
 bool gameOn = true;
-char choice;
 char rowCharacter;
 int columnInteger;
 int row;
@@ -13,13 +12,12 @@ int column;
 int turns;
 int hits;
 
+//fleet hit points
 int destroyerHits;
 int carrierHits;
 int patrolboatHits;
 int battleshipHits;
 int submarineHits;
-
-
 
 //Array of the board
 char board[10][10]={{' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
@@ -33,68 +31,48 @@ char board[10][10]={{' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
                     {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
                     {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},};
 
-//Fleet positions
-char fleet[10][10]={{' ','S','S','S',' ',' ',' ',' ',' ',' '},
+//fleet position
+char fleet[10][10]={{' ','D','D','D',' ',' ',' ',' ',' ',' '},
                     {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                    {' ','S','S','S','S','S',' ',' ',' ',' '},
+                    {' ','C','C','C','C','C',' ',' ',' ',' '},
                     {' ',' ',' ',' ',' ',' ',' ',' ','S',' '},
-                    {' ',' ','S',' ',' ',' ',' ',' ','S',' '},
-                    {' ',' ','S',' ','S',' ',' ',' ','S',' '},
-                    {' ',' ',' ',' ','S',' ',' ',' ',' ',' '},
-                    {' ',' ',' ',' ','S',' ',' ',' ',' ',' '},
-                    {' ',' ',' ',' ','S',' ',' ',' ',' ',' '},
+                    {' ',' ','P',' ',' ',' ',' ',' ','S',' '},
+                    {' ',' ','P',' ','B',' ',' ',' ','S',' '},
+                    {' ',' ',' ',' ','B',' ',' ',' ',' ',' '},
+                    {' ',' ',' ',' ','B',' ',' ',' ',' ',' '},
+                    {' ',' ',' ',' ','B',' ',' ',' ',' ',' '},
                     {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},};
 
 //what ship is hit
 void shipHit() {
-  
-    if (row == 0)
-    {
-         if (column > 0 && column < 4)
-         {
-            cout<<"Destroyer \n";
-            destroyerHits++;
-            return;
-         }
-     }
-     else if (row == 2)
-    {
-        if (column > 0 && column < 6)
-        {
-            cout<<"Carrier \n";
-            carrierHits++;
-            return;
-        }
+    if(fleet[row][column] == 'D'){
+        cout<<"Destroyer \n";
+        destroyerHits++;
+        return;
     }
-    else if (column == 2)
-    {
-        if (row > 3 && row < 6)
-        {
-            cout<<"Patrolboat \n";
-            patrolboatHits++;
-            return;
-        }
+    else if(fleet[row][column] == 'C'){
+        cout<<"Carrier \n";
+        carrierHits++;
+        return;
     }
-    else if (column == 4)
-    {
-        if (row > 4 && row < 9)
-        {   cout<<"Battleship \n";
-            battleshipHits++;
-            return;
-        }
+    else if(fleet[row][column] == 'P'){
+        cout<<"Patrolboat \n";
+        patrolboatHits++;
+        return;
     }
-    else if (column == 8)
-    {
-        if (row > 2 && row < 6)
-        {
-            cout<<"Submarine \n";
-            submarineHits++;
-            return;
-        }
+    else if(fleet[row][column] == 'B'){
+        cout<<"Battleship \n";
+        battleshipHits++;
+        return;
     }
-  
+    else if(fleet[row][column] == 'S'){
+        cout<<"Submarine \n";
+        submarineHits++;
+        return;
+    }
 }
 
+//count ships sunk
 void shipSunkCount() {
    int shipSunk=0;
     if(destroyerHits == 3){
@@ -114,6 +92,7 @@ void shipSunkCount() {
 
 //display board
 void display_board() {
+    cout<<"------Battle Ship------\n";
     cout<<"  "<<1<<'|'<<2<<'|'<<3<<'|'<<4<<'|'<<5<<'|'<<6<<'|'<<7<<'|'<<8<<'|'<<9<<'|'<<10<<endl;
     cout<<'A'<<'|'<<board[0][0]<<'|'<<board[0][1]<<'|'<<board[0][2]<<'|'<<board[0][3]<<'|'<<board[0][4]<<'|'<<board[0][5]<<'|'<<board[0][6]<<'|'<<board[0][7]<<'|'<<board[0][8]<<'|'<<board[0][9]<<'|'<<endl;
     cout<<'B'<<'|'<<board[1][0]<<'|'<<board[1][1]<<'|'<<board[1][2]<<'|'<<board[1][3]<<'|'<<board[1][4]<<'|'<<board[1][5]<<'|'<<board[1][6]<<'|'<<board[1][7]<<'|'<<board[1][8]<<'|'<<board[1][9]<<'|'<<endl;
@@ -125,22 +104,14 @@ void display_board() {
     cout<<'H'<<'|'<<board[7][0]<<'|'<<board[7][1]<<'|'<<board[7][2]<<'|'<<board[7][3]<<'|'<<board[7][4]<<'|'<<board[7][5]<<'|'<<board[7][6]<<'|'<<board[7][7]<<'|'<<board[7][8]<<'|'<<board[7][9]<<'|'<<endl;
     cout<<'I'<<'|'<<board[8][0]<<'|'<<board[8][1]<<'|'<<board[8][2]<<'|'<<board[8][3]<<'|'<<board[8][4]<<'|'<<board[8][5]<<'|'<<board[8][6]<<'|'<<board[8][7]<<'|'<<board[8][8]<<'|'<<board[8][9]<<'|'<<endl;
     cout<<'J'<<'|'<<board[9][0]<<'|'<<board[9][1]<<'|'<<board[9][2]<<'|'<<board[9][3]<<'|'<<board[9][4]<<'|'<<board[9][5]<<'|'<<board[9][6]<<'|'<<board[9][7]<<'|'<<board[9][8]<<'|'<<board[9][9]<<'|'<<endl;
+    cout<<"-----------------------\n";
 }
+
 //collect player selection 
 void selection() {
-    cout<<"Select Row \n";
+    cout<<"Select Row[a,b,c,d,e,f,g,h,i,j] \n";
     cin>>rowCharacter;
     switch(rowCharacter){
-        case ('A'): row=0; break;
-        case ('B'): row=1; break;
-        case ('C'): row=2; break;
-        case ('D'): row=3; break;
-        case ('E'): row=4; break;
-        case ('F'): row=5; break;
-        case ('G'): row=6; break;
-        case ('H'): row=7; break;
-        case ('I'): row=8; break;
-        case ('J'): row=9; break;
         case ('a'): row=0; break;
         case ('b'): row=1; break;
         case ('c'): row=2; break;
@@ -155,7 +126,7 @@ void selection() {
         cout<<"invalid selection \n";
         return;
     }
-    cout<<"Select Column \n";
+    cout<<"Select Column [1,2,3,4,5,6,7,8,9,10] \n";
     cin>>columnInteger;
     switch(columnInteger){
         case (1): column=0; break;
@@ -172,25 +143,22 @@ void selection() {
         cout<<"invalid selection \n";
         return;
     }
-    if(board[row][column] != 'X' && fleet[row][column] != 'S' && board[row][column] ){
+    if(board[row][column] != 'X' && fleet[row][column] == ' ' && board[row][column] != '0' ){
         board[row][column] = '0';
         cout<<"MISS!\n";
         turns++;
         
-        
-    }else if(board[row][column] != 'X' && fleet[row][column] == 'S'){
+    }else if(board[row][column] != 'X' && fleet[row][column] != ' '){
         board[row][column] = 'X';
         cout<<"HIT! ";
         hits++;
         turns++;
     }else{
         cout<<"invalid selection \n";
-        row=0;
-        column=0;
         return;
     } 
 }
-//Have all the ships been sunk
+//check if all ships have been sunk
 void gameIsWon() {
     if(hits == 17){
         shipSunkCount();
@@ -200,12 +168,12 @@ void gameIsWon() {
         gameOn = false;
     }
 }
-
+//main function
 int main() {
     cout<<"BattleShip \n";
       while(gameOn){
-        shipSunkCount();
         display_board();
+        shipSunkCount();
         cout<<turns<<" guesses \n";
         selection();
         shipHit();
